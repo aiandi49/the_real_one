@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THE REAL ONE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #FFD700;
+      --red: #E5001A;
+      --dark: #0a0a0a;
+      --off-white: #f0ece2;
+      --stamp-green: #2d6a2d;
+    }
+
+    body {
+      background-color: var(--dark);
+      color: var(--off-white);
+      font-family: 'Space Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.5;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      position: relative;
+    }
+
+    header::after {
+      content: '';
+      display: block;
+      width: 120px;
+      height: 4px;
+      background: var(--gold);
+      margin: 20px auto 0;
+    }
+
+    .site-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(4rem, 12vw, 9rem);
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      text-shadow: 4px 4px 0 #7a6000, 8px 8px 0 rgba(255,215,0,0.15);
+      line-height: 1;
+      animation: flicker 6s infinite;
+    }
+
+    @keyframes flicker {
+      0%, 94%, 96%, 98%, 100% { opacity: 1; }
+      95% { opacity: 0.85; }
+      97% { opacity: 0.92; }
+      99% { opacity: 0.88; }
+    }
+
+    .site-subtitle {
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      color: rgba(240,236,226,0.4);
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 20px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid rgba(255,215,0,0.15);
+      margin-bottom: 32px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .row:nth-child(1) { animation-delay: 0.1s; }
+    .row:nth-child(2) { animation-delay: 0.2s; }
+    .row:nth-child(3) { animation-delay: 0.3s; }
+    .row:nth-child(4) { animation-delay: 0.4s; }
+    .row:nth-child(5) { animation-delay: 0.5s; }
+    .row:nth-child(6) { animation-delay: 0.6s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+    }
+
+    .card img {
+      width: 100%;
+      display: block;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      transition: transform 0.5s ease, filter 0.5s ease;
+      filter: saturate(0.9) contrast(1.05);
+    }
+
+    .card:hover img {
+      transform: scale(1.04);
+    }
+
+    /* Divider between the two cards */
+    .card:first-child {
+      border-right: 2px solid var(--dark);
+    }
+
+    /* Label banner */
+    .label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 10px;
+      font-family: 'Bebas Neue', cursive;
+      letter-spacing: 0.12em;
+      font-size: clamp(1.4rem, 3.5vw, 2.4rem);
+      transition: opacity 0.3s;
+    }
+
+    .label-real {
+      background: linear-gradient(0deg, rgba(0,0,0,0.92) 60%, transparent);
+      color: var(--gold);
+      text-shadow: 0 0 20px rgba(255,215,0,0.6), 2px 2px 0 #7a6000;
+    }
+
+    .label-real::before {
+      content: '✦ ';
+      font-size: 0.7em;
+      opacity: 0.8;
+    }
+    .label-real::after {
+      content: ' ✦';
+      font-size: 0.7em;
+      opacity: 0.8;
+    }
+
+    .label-nope {
+      background: linear-gradient(0deg, rgba(0,0,0,0.92) 60%, transparent);
+      color: var(--red);
+      text-shadow: 0 0 18px rgba(229,0,26,0.5), 2px 2px 0 #6a0000;
+    }
+
+    /* Red X stamp on NOPE */
+    .card-nope::after {
+      content: '✕';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -52%) rotate(-15deg) scale(0);
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(5rem, 14vw, 10rem);
+      color: var(--red);
+      opacity: 0;
+      text-shadow: 0 0 30px rgba(229,0,26,0.8);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .card-nope:hover::after {
+      transform: translate(-50%, -52%) rotate(-15deg) scale(1);
+      opacity: 0.85;
+    }
+
+    /* Gold shimmer on REAL on hover */
+    .card-real::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(255,215,0,0.08) 50%, transparent 60%);
+      background-size: 300% 300%;
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+    .card-real:hover::after {
+      opacity: 1;
+      animation: shimmer 1.2s ease forwards;
+    }
+    @keyframes shimmer {
+      from { background-position: 200% 200%; }
+      to   { background-position: -50% -50%; }
+    }
+
+    .row-number {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: rgba(255,215,0,0.35);
+      z-index: 2;
+    }
+
+    @media (max-width: 600px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+      .card:first-child {
+        border-right: none;
+        border-bottom: 2px solid var(--dark);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1 class="site-title">THE REAL ONE</h1>
+  <p class="site-subtitle">Can you spot the difference?</p>
+</header>
+
+<main>
+
+  <!-- ROW 1 -->
+  <div class="row">
+    <div class="card card-real">
+      <span class="row-number">ROW 01 — A</span>
+      <img src="https://cwtqstdxiythhnedpqtp.supabase.co/storage/v1/object/sign/REAL-JESUS/1_jesus.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wYTVjMjE0MS1lYzE4LTQ3MjUtYWUxZC1hYWI1ZTVhODUyZGIiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJSRUFMLUpFU1VTLzFfamVzdXMucG5nIiwiaWF0IjoxNzc5MzU2MTI4LCJleHAiOjE4MTA4OTIxMjh9.0Ow3kgeCIWvWbYw8iDPBBSV5_fKuI-bcgagjNP7xzQ4" alt="The Real One - Row 1" loading="lazy">
+      <div class="label label-real">THE REAL ONE</div>
+    </div>
+    <div class="card card-nope">
+      <span class="row-number">ROW 01 — B</span>
+      <img src="https://cwtqstdxiythhnedpqtp.supabase.co/storage/v1/object/sign/REAL-JESUS/1_nojesus.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wYTVjMjE0MS1lYzE4LTQ3MjUtYWUxZC1hYWI1ZTVhODUyZGIiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJSRUFMLUpFU1VTLzFfbm9qZXN1cy5wbmciLCJpYXQiOjE3NzkzNTYxNDYsImV4cCI6MTgxMDg5MjE0Nn0.X_GFlJ0dxCqEUEJPgALSTgXRR5EgRCSCsjDvhem0PhE" alt="Nope - Row 1" loading="lazy">
+      <div class="label label-nope">NOPE</div>
+    </div>
+  </div>
+
+  <!-- ROW 2 -->
+  <div class="row">
+    <div class="card card-real">
+      <span class="row-number">ROW 02 — A</span>
+      <img src="https://cwtqstdxiythhnedpqtp.supabase.co/storage/v1/object/sign/REAL-JESUS/2_jesus.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wYTVjMjE0MS1lYzE4LTQ3MjUtYWUxZC1hYWI1ZTVhODUyZGIiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJSRUFMLUpFU1VTLzJfamVzdXMucG5nIiwiaWF0IjoxNzc5MzU2MTc5LCJleHAiOjE4MTA4OTIxNzl9.nwORMhDA7ArAc2vuABLVER1M41A0TJMwpA9QsyrcE2Y" alt="The Real One - Row 2" loading="lazy">
+      <div class="label label-real">THE REAL ONE</div>
+    </div>
+    <div class="card card-nope">
+      <span class="row-number">ROW 02 — B</span>
+      <img src="https://cwtqstdxiythhnedpqtp.supabase.co/storage/v1/object/sign/REAL-JESUS/2_nojesus.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wYTVjMjE0MS1lYzE4LTQ3MjUtYWUxZC1hYWI1ZTVhODUyZGIiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJSRUFMLUpFU1VTLzJfbm9qZXN1cy5wbmciLCJpYXQiOjE3NzkzNTYxOTEsImV4cCI6MTgxMDg5MjE5MX0.1CUHS3r5HstJRr4z5SexTWKV9zuWaklZI8x3rOBygXw" alt="Nope - Row 2" loading="lazy">
+      <div class="label label-nope">NOPE</div>
+    </div>
+  </div>
+
+  <!-- ROW 3 -->
+  <div class="row">
+    <div class="card card-real">
+      <span class="row-number">ROW 03 — A</span>
+      <img src="https://cwtqstdxiythhnedpqtp.supabase.co/storage/v1/object/sign/REAL-JESUS/3_jesus.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wYTVjMjE0MS1lYzE4LTQ3MjUtYWUxZC1hYWI1ZTVhODUyZGIiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJSRUFMLUpFU1VTLzNfamVzdXMucG5nIiwiaWF0IjoxNzc5MzU2MjA3LCJleHAiOjE4MTA4OTIyMDd9.GxMruqmrr51sMuz9Wkb2rVl1GcfUGEP47U0sx7may8w" alt="The Real One - Row 3" loading="lazy">
+      <div class="label label-real">THE REAL ONE</div>
+    </div>
+    <div class="card card-nope">
+      <span class="row-number">ROW 03 — B</span>
+      <img src="https://cwtqstdxiythhnedpqtp.supabase.co/storage/v1/object/sign/REAL-JESUS/3_nojesus.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wYTVjMjE0MS1lYzE4LTQ3MjUtYWUxZC1hYWI1ZTVhODUyZGIiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJSRUFMLUpFU1VTLzNfbm9qZXN1cy5wbmciLCJpYXQiOjE3NzkzNTYyMTcsImV4cCI6MTgxMDg5MjIxN30.7ncnPiFBRkrwQ8dJSXM-yT3KscuATmy_vU2E29fJVMI" alt="Nope - Row 3" loading="lazy">
+      <div class="label label-nope">NOPE</div>
+    </div>
+  </div>
+
+  <!-- ROW 4 -->
+  <div class="row">
+    <div class="card card-real">
+      <span class="row-number">ROW 04 — A</span>
+      <img src="https://cwtqstdxiythhnedpqtp.supabase.co/storage/v1/object/sign/REAL-JESUS/4_jesus.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wYTVjMjE0MS1lYzE4LTQ3MjUtYWUxZC1hYWI1ZTVhODUyZGIiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJSRUFMLUpFU1VTLzRfamVzdXMucG5nIiwiaWF0IjoxNzc5MzU2MjUwLCJleHAiOjE4MTA4OTIyNTB9.da2fi7ZDeFsYU--FDUnsYwvcgyYWkHBMdjzbNGXsqOI" alt="The Real One - Row 4" loading="lazy">
+      <div class="label label-real">THE REAL ONE</div>
+    </div>
+    <div class="card card-nope">
+      <span class="row-number">ROW 04 — B</span>
+      <img src="https://cwtqstdxiythhnedpqtp.supabase.co/storage/v1/object/sign/REAL-JESUS/4_nojesus.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wYTVjMjE0MS1lYzE4LTQ3MjUtYWUxZC1hYWI1ZTVhODUyZGIiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJSRUFMLUpFU1VTLzRfbm9qZXN1cy5wbmciLCJpYXQiOjE3NzkzNTYyNjUsImV4cCI6MTgxMDg5MjI2NX0.H80HaMU-bdxb80yfE7pQBsz2ALFBzYO_AiTjSTOtsak" alt="Nope - Row 4" loading="lazy">
+      <div class="label label-nope">NOPE</div>
+    </div>
+  </div>
+
+  <!-- ROW 5 -->
+  <div class="row">
+    <div class="card card-real">
+      <span class="row-number">ROW 05 — A</span>
+      <img src="https://cwtqstdxiythhnedpqtp.supabase.co/storage/v1/object/sign/REAL-JESUS/5_jesus.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wYTVjMjE0MS1lYzE4LTQ3MjUtYWUxZC1hYWI1ZTVhODUyZGIiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJSRUFMLUpFU1VTLzVfamVzdXMucG5nIiwiaWF0IjoxNzc5MzU2MjgyLCJleHAiOjE4MTA4OTIyODJ9.eOIIY4owZv40WWFk3fwc5BqJiajvlvyw6OL743IrhAs" alt="The Real One - Row 5" loading="lazy">
+      <div class="label label-real">THE REAL ONE</div>
+    </div>
+    <div class="card card-nope">
+      <span class="row-number">ROW 05 — B</span>
+      <img src="https://cwtqstdxiythhnedpqtp.supabase.co/storage/v1/object/sign/REAL-JESUS/5_nojesus.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wYTVjMjE0MS1lYzE4LTQ3MjUtYWUxZC1hYWI1ZTVhODUyZGIiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJSRUFMLUpFU1VTLzVfbm9qZXN1cy5wbmciLCJpYXQiOjE3NzkzNTYyOTIsImV4cCI6MTgxMDg5MjI5Mn0.BklREZFRazJKHSBPiekqsBE5Fvs1B3w3srwkTdVFz9U" alt="Nope - Row 5" loading="lazy">
+      <div class="label label-nope">NOPE</div>
+    </div>
+  </div>
+
+  <!-- ROW 6 -->
+  <div class="row">
+    <div class="card card-real">
+      <span class="row-number">ROW 06 — A</span>
+      <img src="https://cwtqstdxiythhnedpqtp.supabase.co/storage/v1/object/sign/REAL-JESUS/6_jesus.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wYTVjMjE0MS1lYzE4LTQ3MjUtYWUxZC1hYWI1ZTVhODUyZGIiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJSRUFMLUpFU1VTLzZfamVzdXMucG5nIiwiaWF0IjoxNzc5MzU2MzA5LCJleHAiOjE4MTA4OTIzMDl9.0MPqSaKQM7j0oNXcY6UgzrT1e1x-4YYvNtoWf9m1RRw" alt="The Real One - Row 6" loading="lazy">
+      <div class="label label-real">THE REAL ONE</div>
+    </div>
+    <div class="card card-nope">
+      <span class="row-number">ROW 06 — B</span>
+      <img src="https://cwtqstdxiythhnedpqtp.supabase.co/storage/v1/object/sign/REAL-JESUS/6_nojesus.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8wYTVjMjE0MS1lYzE4LTQ3MjUtYWUxZC1hYWI1ZTVhODUyZGIiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJSRUFMLUpFU1VTLzZfbm9qZXN1cy5wbmciLCJpYXQiOjE3NzkzNTYzMTksImV4cCI6MTgxMDg5MjMxOX0.G4asJ6rExKoY0gKm_vQB-3SL2KXPSA9bYUTkFq1wX2E" alt="Nope - Row 6" loading="lazy">
+      <div class="label label-nope">NOPE</div>
+    </div>
+  </div>
+
+</main>
+
+</body>
+</html>
